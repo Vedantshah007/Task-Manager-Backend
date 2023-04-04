@@ -2,12 +2,10 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-// const tasks = require('./task')
 
 const userschema = new mongoose.Schema({
     name:{
         type:String,
-        //
         required:true,
         trim:true
     },
@@ -50,14 +48,6 @@ const userschema = new mongoose.Schema({
     }]
 })
 
-// userschema.methods.getpublicprofile = function(){
-//     const user = this;
-//     const userobj = user.toObject()
-//     delete userobj.password
-//     delete userobj.tokens
-//     return userobj
-// }
-
 userschema.virtual('tasks',{
     ref:'tasks',
     localField:'_id',
@@ -95,7 +85,6 @@ userschema.statics.findByCredentials=async (email,password)=>{
     return user
 }
 
-// pre before and post after
 
 userschema.pre('save',async function(next){
     const user = this
@@ -106,12 +95,6 @@ userschema.pre('save',async function(next){
     
     next()
 })
-
-// userschema.pre('delete',async function(next){
-//     const user = this
-//     await tasks.deleteMany({creator:user._id})
-//     next()
-// })
  
 const User = mongoose.model('Users',userschema)
 
